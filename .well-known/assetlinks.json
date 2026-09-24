@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.kin",
+      "sha256_cert_fingerprints": [
+        "A8:30:33:BD:7C:44:70:5B:A0:1A:F2:C2:06:8B:BD:A2:2A:32:28:B3:05:81:FC:00:AF:C8:94:25:25:31:7A:51"
+      ]
+    }
+  }
+]
