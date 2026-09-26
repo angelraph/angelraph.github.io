@@ -5,7 +5,8 @@
       "namespace": "android_app",
       "package_name": "app.kin",
       "sha256_cert_fingerprints": [
-        "A8:30:33:BD:7C:44:70:5B:A0:1A:F2:C2:06:8B:BD:A2:2A:32:28:B3:05:81:FC:00:AF:C8:94:25:25:31:7A:51"
+        "A8:30:33:BD:7C:44:70:5B:A0:1A:F2:C2:06:8B:BD:A2:2A:32:28:B3:05:81:FC:00:AF:C8:94:25:25:31:7A:51",
+        "44:75:F8:8F:83:CD:53:EA:EE:28:50:F4:CF:97:E0:5F:3D:BE:98:13:A4:62:DD:4B:28:38:86:A0:2A:9D:8A:DA"
       ]
     }
   }
