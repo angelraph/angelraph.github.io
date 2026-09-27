@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kin — pitch deck</title>
+<meta name="description" content="Kin: a bonded, on-chain savings circle for Android and Seeker. See the pitch deck.">
+<meta property="og:title" content="Kin — pitch deck">
+<meta property="og:description" content="A bonded, on-chain savings circle for Android and Seeker. Built for the Solana Mobile CLOCK IN hackathon.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#ffffff; --ink:#18181b; --graphite:#27272a; --cloud:#f4f4f5; --steel:#d4d4d8;
+    --slate:#71717a; --charcoal:#3f3f46; --aqua:#94faf0; --lime:#d4f796; --volt:#bff660;
+    --good:#0b7a6f; --warn:#b45309;
+    --sans:"Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    --mono:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color-scheme: light;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); -webkit-font-smoothing:antialiased; overflow:hidden; }
+  ::selection{ background:var(--aqua); color:var(--ink); }
+  a{ color:inherit; }
+
+  .deck{ position:relative; height:100dvh; width:100%; display:flex; flex-direction:column; }
+  .strip{ flex:none; background:var(--lime); color:rgba(24,24,27,.8); text-align:center; font-size:13px; padding:8px 16px; letter-spacing:-.01em; }
+  .progress{ height:2px; width:100%; background:var(--cloud); flex:none; }
+  .progress > i{ display:block; height:100%; width:8%; background:var(--ink); transition:width .35s ease; }
+
+  .slides{ position:relative; flex:1 1 auto; min-height:0; }
+  .slide{
+    position:absolute; inset:0; display:flex; align-items:flex-start; justify-content:center;
+    padding: clamp(28px,6vh,64px) clamp(18px,6vw,96px) 110px;
+    opacity:0; visibility:hidden; transform:translateY(8px);
+    transition:opacity .35s ease, transform .35s ease; overflow-y:auto;
+  }
+  .slide.is-active{ opacity:1; visibility:visible; transform:none; }
+  .inner{ width:100%; max-width:1040px; margin:0 auto; }
+
+  .label{ font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--slate); margin:0 0 14px; }
+  h1{ font-weight:500; font-size:clamp(42px,8.4vw,92px); line-height:.94; letter-spacing:-.045em; margin:0 0 20px; text-wrap:balance; }
+  h2{ font-weight:500; font-size:clamp(30px,4.6vw,52px); line-height:1.02; letter-spacing:-.04em; margin:0 0 20px; text-wrap:balance; }
+  p{ margin:0; }
+  .lede{ font-size:clamp(16px,1.9vw,19px); line-height:1.55; color:var(--slate); max-width:60ch; margin-bottom:14px; letter-spacing:-.01em; }
+  .lede b{ color:var(--ink); font-weight:600; }
+  .mono{ font-family:var(--mono); }
+  .tab{ font-variant-numeric:tabular-nums; }
+
+  .btnrow{ display:flex; flex-wrap:wrap; gap:10px; margin:22px 0 4px; }
+  .btn{ display:inline-flex; align-items:center; gap:8px; font-weight:500; font-size:14px; padding:12px 18px; border-radius:16px; text-decoration:none; letter-spacing:-.01em; }
+  .btn.aqua{ background:var(--aqua); color:var(--ink); }
+  .btn.line{ border:1px solid var(--steel); background:var(--paper); color:var(--ink); }
+  .cap{ display:flex; flex-wrap:wrap; gap:8px 18px; margin:18px 0 0; }
+  .cap span{ display:inline-flex; align-items:center; gap:8px; font-size:14px; font-weight:500; }
+  .cap i{ width:12px; height:12px; border-radius:3px; background:var(--ink); display:block; }
+
+  .split{ display:grid; grid-template-columns:1.05fr .95fr; gap:clamp(24px,5vw,64px); align-items:center; }
+  @media (max-width:820px){ .split{ grid-template-columns:1fr; } }
+
+  /* layered ledger art */
+  .art{ position:relative; height:280px; max-width:420px; width:100%; margin:0 auto; }
+  .sheet{ position:absolute; width:210px; height:160px; border:1px solid var(--steel); border-radius:16px; padding:14px; font-family:var(--mono); font-size:11px; color:var(--slate); letter-spacing:.04em; box-shadow:0 2px 8px rgba(0,0,0,.04); }
+  .sheet.a{ left:0; top:70px; background:var(--cloud); transform:rotate(-7deg); }
+  .sheet.b{ right:0; top:56px; background:var(--paper); transform:rotate(6deg); }
+  .tile{ position:absolute; left:50%; top:18px; transform:translateX(-50%); width:250px; background:var(--graphite); color:#fff; border-radius:16px; padding:18px 20px 20px; box-shadow:0 18px 40px -12px rgba(0,0,0,.35); }
+  .tile .k{ font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:rgba(255,255,255,.55); display:flex; align-items:center; gap:8px; }
+  .tile .big{ font-size:44px; font-weight:500; letter-spacing:-.045em; margin:10px 0 12px; }
+  .tile .sweep{ height:3px; width:120px; border-radius:3px; background:linear-gradient(90deg,#07cddf 52%,#9eed15 100%); }
+
+  /* tables and lists */
+  .wrap{ overflow-x:auto; border:1px solid var(--steel); border-radius:16px; }
+  table{ width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+  th,td{ text-align:left; padding:13px 16px; border-bottom:1px solid var(--steel); vertical-align:top; }
+  th{ font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--slate); font-weight:400; background:var(--cloud); }
+  td{ color:var(--charcoal); }
+  td.n{ color:var(--ink); font-weight:600; white-space:nowrap; }
+  tr:last-child td{ border-bottom:none; }
+  tr.us td{ background:rgba(148,250,240,.22); color:var(--ink); }
+
+  .names{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:6px 0 20px; }
+  @media (max-width:640px){ .names{ grid-template-columns:repeat(2,1fr); } }
+  .names div{ background:var(--cloud); border:1px solid rgba(0,0,0,.06); border-radius:16px; padding:12px 14px; }
+  .names .p{ font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.07em; color:var(--slate); }
+  .names .w{ font-size:18px; font-weight:500; letter-spacing:-.02em; margin-top:2px; }
+
+  .steps{ list-style:none; margin:0 0 22px; padding:0; border-top:1px solid var(--steel); }
+  .steps li{ display:flex; gap:16px; padding:16px 0; border-bottom:1px solid var(--steel); align-items:baseline; font-size:16px; letter-spacing:-.01em; }
+  .steps .i{ font-family:var(--mono); font-size:12px; color:var(--ink); background:var(--aqua); border-radius:6px; padding:3px 7px; flex:none; }
+  .steps li span.m{ color:var(--slate); }
+  .thesis{ font-size:clamp(20px,2.7vw,28px); line-height:1.25; letter-spacing:-.03em; font-weight:500; max-width:32ch; }
+
+  .diagram{ display:flex; flex-direction:column; align-items:center; gap:14px; }
+  .diagram svg{ width:100%; max-width:600px; height:auto; }
+  .legend{ display:flex; flex-wrap:wrap; gap:8px 22px; justify-content:center; font-size:13.5px; color:var(--slate); }
+  .legend i{ display:inline-block; width:12px; height:12px; border-radius:3px; margin-right:8px; vertical-align:-1px; }
+
+  .graph{ background:var(--graphite); color:#fff; border-radius:16px; border:1px solid rgba(255,255,255,.13); padding:20px 22px; }
+  .graph .k{ font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:rgba(255,255,255,.55); }
+  .graph .pct{ font-size:56px; font-weight:500; letter-spacing:-.05em; line-height:1; margin:8px 0 12px; }
+  .graph .r{ display:flex; justify-content:space-between; padding:9px 0; border-top:1px solid rgba(255,255,255,.13); font-size:14px; color:rgba(255,255,255,.65); }
+  .graph .r b{ color:#fff; font-family:var(--mono); font-weight:500; }
+  .note{ font-size:12px; color:var(--slate); margin-top:10px; }
+
+  .uc{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  @media (max-width:900px){ .uc{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:520px){ .uc{ grid-template-columns:1fr; } }
+  .uc div{ background:var(--cloud); border:1px solid rgba(0,0,0,.06); border-radius:16px; padding:16px; }
+  .uc h3{ font-size:16px; font-weight:500; letter-spacing:-.02em; margin:0 0 6px; }
+  .uc p{ font-size:13px; color:var(--charcoal); line-height:1.45; }
+  .uc .e{ display:block; margin-top:10px; font-family:var(--mono); font-size:11px; color:var(--slate); }
+
+  .rows{ border-top:1px solid var(--steel); }
+  .row{ display:grid; grid-template-columns:170px 1fr; gap:18px; padding:15px 0; border-bottom:1px solid var(--steel); }
+  @media (max-width:640px){ .row{ grid-template-columns:1fr; gap:4px; } }
+  .row .k{ font-family:var(--mono); font-size:12.5px; color:var(--ink); padding-top:2px; }
+  .row .d{ color:var(--charcoal); font-size:14.5px; line-height:1.55; }
+  .row .d b{ color:var(--ink); font-weight:600; }
+
+  .code{ background:var(--graphite); border-radius:16px; border:1px solid rgba(255,255,255,.13); padding:8px 0; }
+  .code .l{ display:flex; gap:12px; padding:11px 20px; border-bottom:1px solid rgba(255,255,255,.1); font-size:13.5px; color:#fff; align-items:baseline; }
+  .code .l:last-child{ border-bottom:none; }
+  .code .c{ font-family:var(--mono); color:var(--aqua); flex:none; }
+  .code .l span.m{ color:rgba(255,255,255,.55); }
+  .code .l .id{ margin-left:auto; font-family:var(--mono); font-size:11.5px; color:rgba(255,255,255,.5); flex:none; }
+  .hash{ font-family:var(--mono); font-size:12.5px; word-break:break-all; color:var(--good); }
+
+  .ev{ border-top:1px solid var(--steel); }
+  .er{ display:flex; justify-content:space-between; gap:16px; padding:12px 0; border-bottom:1px solid var(--steel); align-items:baseline; }
+  .er .i{ color:var(--slate); font-size:14px; }
+  .er .v{ font-family:var(--mono); font-size:13.5px; text-align:right; }
+  .notyet{ margin-top:16px; font-size:13px; color:var(--warn); }
+
+  .road{ list-style:none; margin:0; padding:0; }
+  .road li{ display:grid; grid-template-columns:28px 1fr; gap:0 6px; }
+  .road .rail{ display:flex; flex-direction:column; align-items:center; }
+  .road .dot{ width:14px; height:14px; border-radius:50%; border:1px solid var(--steel); background:var(--paper); margin-top:4px; flex:none; }
+  .road .dot.now{ background:var(--aqua); border-color:var(--aqua); }
+  .road .line{ flex:1; width:1px; background:var(--steel); }
+  .road .body{ padding-bottom:22px; }
+  .road .tag{ font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--slate); }
+  .road .tag.now{ color:var(--good); }
+  .road h3{ font-size:19px; font-weight:500; letter-spacing:-.025em; margin:3px 0 8px; }
+  .road ul{ margin:0; padding:0; list-style:none; }
+  .road ul li{ display:block; font-size:14px; color:var(--charcoal); padding:2px 0; line-height:1.5; }
+  .road ul li::before{ content:"[ ] "; font-family:var(--mono); font-size:12px; color:var(--slate); }
+  .road.done ul li::before{ content:"[x] "; color:var(--good); }
+
+  .crit{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-bottom:22px; }
+  @media (max-width:640px){ .crit{ grid-template-columns:1fr; } }
+  .crit div{ background:var(--cloud); border:1px solid rgba(0,0,0,.06); border-radius:16px; padding:16px 18px; }
+  .crit .p{ font-family:var(--mono); font-size:11.5px; color:var(--slate); letter-spacing:.04em; }
+  .crit h3{ font-size:17px; font-weight:500; letter-spacing:-.02em; margin:4px 0 6px; }
+  .crit .t{ font-size:13.5px; color:var(--charcoal); line-height:1.5; }
+  .foot{ display:flex; flex-wrap:wrap; gap:10px 32px; border-top:1px solid var(--steel); padding-top:16px; }
+  .foot .k{ display:block; font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--slate); }
+  .foot .v{ font-family:var(--mono); font-size:13px; word-break:break-all; }
+
+  .pager{ position:fixed; left:0; right:0; bottom:0; z-index:2; display:flex; align-items:center; justify-content:center; gap:14px; padding:14px 16px calc(14px + env(safe-area-inset-bottom,0px)); background:linear-gradient(to top, var(--paper) 45%, rgba(255,255,255,0)); }
+  .dots{ display:flex; gap:7px; }
+  .dots button{ width:7px; height:7px; padding:0; border-radius:50%; border:none; background:var(--steel); cursor:pointer; }
+  .dots button.on{ background:var(--ink); width:20px; border-radius:4px; transition:width .25s ease; }
+  .counter{ font-family:var(--mono); font-size:11px; color:var(--slate); min-width:44px; text-align:center; }
+  .nav{ position:fixed; top:50%; transform:translateY(-50%); z-index:2; width:40px; height:40px; border-radius:50%; border:1px solid var(--steel); background:var(--paper); color:var(--ink); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; }
+  .nav:disabled{ opacity:.25; cursor:default; }
+  .nav.prev{ left:14px; } .nav.next{ right:14px; }
+  @media (max-width:640px){ .nav{ display:none; } }
+  .nav:focus-visible, .dots button:focus-visible, .btn:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  @media (prefers-reduced-motion: reduce){ .slide, .progress > i, .dots button{ transition:none !important; } }
+</style>
+
+<div class="deck">
+  <div class="strip">Solana Mobile Hackathon, Clock In. Live on devnet with test tokens.</div>
+  <div class="progress"><i id="bar"></i></div>
+  <div class="slides" id="slides">
+
+    <section class="slide is-active"><div class="inner split">
+      <div>
+        <p class="label">Kin for Android and Seeker</p>
+        <h1>Save together.<br>Get paid in turn.</h1>
+        <p class="lede">A bonded, on-chain savings circle. Everyone pays the same amount each round, one member takes the pot, and a missed payment never leaves the group short.</p>
+        <div class="cap"><span><i></i>Bonded</span><span><i></i>Autopay</span><span><i></i>Verifiable</span></div>
+        <div class="btnrow">
+          <a class="btn aqua" href="https://github.com/angelraph/kin/releases/latest" target="_blank" rel="noopener">Download the APK &rarr;</a>
+          <a class="btn line" href="https://github.com/angelraph/kin" target="_blank" rel="noopener">Source on GitHub</a>
+        </div>
+      </div>
+      <div class="art" aria-hidden="true">
+        <div class="sheet a">PAID 4/5<br><br><br><br><br>AMARA ..... 20</div>
+        <div class="sheet b">BOND LOCKED<br><br><br><br><br>40 / 40</div>
+        <div class="tile"><div class="k">Pot / round 3</div><div class="big">250</div><div class="sweep"></div></div>
+      </div>
+    </div></section>
+
+    <section class="slide"><div class="inner">
+      <p class="label">The problem</p>
+      <h2>The oldest savings tool in the world still runs on trust and a notebook.</h2>
+      <p class="lede">A group pays a fixed amount every round. One person takes the whole pot each time, until everyone has had a turn. No interest and no bank, just a lump sum sooner than saving alone, kept honest by social pressure. It has a different name almost everywhere:</p>
+      <div class="names">
+        <div><div class="p">Nigeria</div><div class="w">Ajo / Esusu</div></div>
+        <div><div class="p">Ghana and Caribbean</div><div class="w">Susu</div></div>
+        <div><div class="p">Mexico and Latin America</div><div class="w">Tanda</div></div>
+        <div><div class="p">Kenya</div><div class="w">Chama</div></div>
+        <div><div class="p">India</div><div class="w">Chit fund</div></div>
+        <div><div class="p">China</div><div class="w">Hui</div></div>
+      </div>
+      <p class="lede">The mechanism works. The trust does not scale. <b>One member disappears with the pot, or just stops paying</b>, and the group has no recourse and no ledger to prove what happened.</p>
+    </div></section>
+
+    <section class="slide"><div class="inner">
+      <p class="label">Prior art</p>
+      <h2>On-chain versions exist. None of them are built for the phone.</h2>
+      <div class="wrap"><table>
+        <thead><tr><th>Project</th><th>What it is</th><th>Where it stops</th></tr></thead>
+        <tbody>
+          <tr><td class="n">BitTontine</td><td>Solana ROSCA, USDC, Squads and PDA custody</td><td>Web app, private beta on devnet</td></tr>
+          <tr><td class="n">Plexa</td><td>Open ROSCA protocol with discount-auction payout</td><td>Protocol only, no native client</td></tr>
+          <tr><td class="n">solana-savings-circle</td><td>Open-source Anchor program</td><td>Program only, no app or wallet flow</td></tr>
+          <tr class="us"><td class="n">Kin</td><td>Bonded circle, portable score, verifiable order, faucet</td><td>Native Android, Mobile Wallet Adapter, Seeker gate</td></tr>
+        </tbody>
+      </table></div>
+      <p class="lede" style="margin-top:20px;">None of them carry a reliability record from one circle to the next, and none let a stranger try the app in a minute.</p>
+    </div></section>
+
+    <section class="slide"><div class="inner">
+      <p class="label">The idea</p>
+      <h2>A circle you can trust because the chain enforces it.</h2>
+      <ol class="steps">
+        <li><span class="i">1</span><span>Lock a <span class="m">bond</span> to join a circle.</span></li>
+        <li><span class="i">2</span><span>Pay your share each round, by hand or by <span class="m">autopay</span>.</span></li>
+        <li><span class="i">3</span><span>Miss one and your bond covers your share. The pot still pays out on time.</span></li>
+        <li><span class="i">4</span><span>Your on-time record follows your wallet into the next circle you join.</span></li>
+      </ol>
+      <p class="thesis">No admin keys. No custodian. The program is the treasurer.</p>
+    </div></section>
+
+    <section class="slide"><div class="inner">
+      <p class="label">One round</p>
+      <h2>Six members pay in. One takes the pot.</h2>
+      <div class="diagram">
+        <svg viewBox="0 0 640 380" role="img" aria-label="Six members pay into a shared program vault. One member receives the pot this round and the order rotates.">
+          <g stroke="#d4d4d8" stroke-width="1.4">
+            <line x1="220" y1="64" x2="220" y2="190"/><line x1="341" y1="128" x2="220" y2="190"/><line x1="341" y1="256" x2="220" y2="190"/>
+            <line x1="220" y1="320" x2="220" y2="190"/><line x1="99" y1="256" x2="220" y2="190"/><line x1="99" y1="128" x2="220" y2="190"/>
+          </g>
+          <circle cx="220" cy="190" r="46" fill="#27272a"/>
+          <text x="220" y="187" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#ffffff">VAULT</text>
+          <text x="220" y="203" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#a1a1aa">program PDA</text>
+          <g font-family="JetBrains Mono, monospace" font-size="11">
+            <circle cx="220" cy="64" r="24" fill="#94faf0"/><text x="220" y="68" text-anchor="middle" fill="#18181b">R1</text>
+            <text x="220" y="26" text-anchor="middle" fill="#0b7a6f" font-size="10">RECEIVES NOW</text>
+            <circle cx="341" cy="128" r="22" fill="#f4f4f5" stroke="#d4d4d8"/><text x="341" y="132" text-anchor="middle" fill="#71717a">R2</text>
+            <circle cx="341" cy="256" r="22" fill="#f4f4f5" stroke="#d4d4d8"/><text x="341" y="260" text-anchor="middle" fill="#71717a">R3</text>
+            <circle cx="220" cy="320" r="22" fill="#f4f4f5" stroke="#d4d4d8"/><text x="220" y="324" text-anchor="middle" fill="#71717a">R4</text>
+            <circle cx="99" cy="256" r="22" fill="#f4f4f5" stroke="#d4d4d8"/><text x="99" y="260" text-anchor="middle" fill="#71717a">R5</text>
+            <circle cx="99" cy="128" r="22" fill="#f4f4f5" stroke="#d4d4d8"/><text x="99" y="132" text-anchor="middle" fill="#71717a">R6</text>
+          </g>
+          <text x="440" y="170" font-family="Inter, sans-serif" font-size="14" fill="#3f3f46">Each member's round</text>
+          <text x="440" y="190" font-family="Inter, sans-serif" font-size="14" fill="#71717a">comes once, in an order</text>
+          <text x="440" y="210" font-family="Inter, sans-serif" font-size="14" fill="#71717a">anyone can recompute.</text>
+        </svg>
+        <div class="legend">
+          <span><i style="background:#94faf0"></i>This round's recipient</span>
+          <span><i style="background:#f4f4f5;border:1px solid #d4d4d8"></i>Bond locked, waiting its turn</span>
+          <span><i style="background:#27272a"></i>Vault owned by the program</span>
+        </div>
+      </div>
+      <p class="lede" style="margin:18px auto 0; text-align:center;">Order is join order, or drawn on-chain from the network's own randomness when the circle fills. The seed is stored, so the app recomputes the draw and checks it.</p>
+    </div></section>
+
+    <section class="slide"><div class="inner split">
+      <div>
+        <p class="label">Reputation</p>
+        <h2>A reliability record that is not stuck inside one app.</h2>
+        <p class="lede">Every wallet carries one <b>Kin Score</b> on-chain: on-time, late and missed payments, streak, circles completed. It updates as circles run and follows the wallet everywhere.</p>
+        <p class="lede">Anyone can paste a wallet address into Kin and read its score before inviting it. A circle can also turn away any wallet with a missed payment on record.</p>
+      </div>
+      <div>
+        <div class="graph">
+          <div class="k">Kin Score</div>
+          <div class="pct tab">96</div>
+          <div class="r"><span>Streak</span><b>14</b></div>
+          <div class="r"><span>Circles completed</span><b>6</b></div>
+          <div class="r"><span>Missed, lifetime</span><b>1</b></div>
+        </div>
+        <p class="note">Example wallet, showing the shape of the data. Not a live figure.</p>
+      </div>
+    </div></section>
+
+    <section class="slide"><div class="inner">
+      <p class="label">Use cases</p>
+      <h2>One program, nine ready-made circles.</h2>
+      <div class="uc">
+        <div><h3>Weekly savings</h3><p>The classic ajo, susu or tanda.</p><span class="e">5 x 50 a week</span></div>
+        <div><h3>Rent and bills</h3><p>Housemates take turns receiving a month of rent.</p><span class="e">4 x 200 a month</span></div>
+        <div><h3>Business capital</h3><p>Traders pool cash to restock or hire.</p><span class="e">6 x 100 a month</span></div>
+        <div><h3>Emergency pact</h3><p>Clean records only, backed by a triple bond.</p><span class="e">8 x 25 a month</span></div>
+        <div><h3>Trip or gift</h3><p>Save toward a shared goal on a short cycle.</p><span class="e">6 x 20 a week</span></div>
+        <div><h3>Seven day sprint</h3><p>A small daily habit with a payout every day.</p><span class="e">7 x 5 a day</span></div>
+        <div><h3>Seeker crew</h3><p>Only Seeker Genesis Token holders can join.</p><span class="e">4 x 10 a week</span></div>
+        <div><h3>SKR club</h3><p>Saves in SKR instead of tUSDC, for the SKR track.</p><span class="e">5 x 10 tSKR a week</span></div>
+        <div><h3>One minute test run</h3><p>A whole circle in minutes, for trying or filming.</p><span class="e">3 x 1 a minute</span></div>
+      </div>
+    </div></section>
+
+    <section class="slide"><div class="inner">
+      <p class="label">Solana native</p>
+      <h2>Every feature needed the phone and the chain together.</h2>
+      <div class="rows">
+        <div class="row"><div class="k">MWA 2.0.3</div><div class="d"><b>Every signature happens in the wallet.</b> Kin builds the transaction and never touches a key.</div></div>
+        <div class="row"><div class="k">Seed Vault</div><div class="d">On a Seeker that signature is <b>biometric-backed key custody</b>, the standard Mobile Wallet Adapter path, used on every action.</div></div>
+        <div class="row"><div class="k">Genesis Token</div><div class="d">A circle can require a <b>Seeker Genesis Token</b>. The program itself checks the Token-2022 account and its mint authority.</div></div>
+        <div class="row"><div class="k">SKR track</div><div class="d">A circle can be denominated in <b>tSKR</b> instead of tUSDC, contesting the separate $10k SKR integration prize with a real circle, not a mention on a slide.</div></div>
+        <div class="row"><div class="k">Autopay</div><div class="d">A capped, revocable <b>SPL delegation</b>. Anyone can trigger a collection, but it moves one contribution into that circle's own vault and nothing else.</div></div>
+        <div class="row"><div class="k">Verifiable order</div><div class="d">Random order comes from the <b>slot hash</b> when the circle fills. The seed is stored and anyone can recompute it.</div></div>
+        <div class="row"><div class="k">Test faucet</div><div class="d">A separate devnet program owns both test tokens' mint authority, so anyone can <b>get funds in one tap</b> with no server and no secret key.</div></div>
+        <div class="row"><div class="k">Home widget</div><div class="d">A phone-only surface: the circle that needs attention most, glanceable without opening the app, the answer to a savings app's weakest habit loop.</div></div>
+      </div>
+    </div></section>
+
+    <section class="slide"><div class="inner">
+      <p class="label">Proof</p>
+      <h2>Do not take our word for it. The app does not ask you to.</h2>
+      <p class="lede">Every circle has a Proof screen that reads the chain directly, in front of the user.</p>
+      <div class="code">
+        <div class="l"><span class="c">[x]</span><span>Round vault holds <span class="m">at least</span> what the program says it owes</span></div>
+        <div class="l"><span class="c">[x]</span><span>Bond vault holds <span class="m">at least</span> what unclaimed bonds add up to</span></div>
+        <div class="l"><span class="c">[x]</span><span>Payout order <span class="m">recomputed</span> from the on-chain seed and compared</span></div>
+        <div class="l"><span class="c">[x]</span><span>Every real transaction, linked to <span class="m">Solana Explorer</span></span></div>
+        <div class="l"><span class="c">[x]</span><span>Program at <span class="m">this exact address</span>, no admin key</span><span class="id">7CGt...SMWe</span></div>
+      </div>
+      <p class="lede" style="margin-top:18px;">The deployed binary is also <b>reproducibly built</b>. Rebuild it with <span class="mono">solana-verify</span> and you get the same hash:</p>
+      <p class="hash">65d5423a6d2e0237a3392854efbc7d551d0f09e04cf257cd7567c9e104243b73</p>
+    </div></section>
+
+    <section class="slide"><div class="inner">
+      <p class="label">Status today</p>
+      <h2>Nothing here is a mockup.</h2>
+      <div class="ev">
+        <div class="er"><span class="i">Kin program</span><span class="v">devnet, 7CGt...SMWe</span></div>
+        <div class="er"><span class="i">Faucet program</span><span class="v">devnet, G5Mh...Wsig</span></div>
+        <div class="er"><span class="i">On-chain tests</span><span class="v tab">27 / 27 passing</span></div>
+        <div class="er"><span class="i">Program logic tests</span><span class="v tab">7 / 7 passing</span></div>
+        <div class="er"><span class="i">Android client tests</span><span class="v tab">60 / 60 passing</span></div>
+        <div class="er"><span class="i">Lint</span><span class="v">strict, zero warnings</span></div>
+        <div class="er"><span class="i">Commits</span><span class="v tab">40, one step at a time</span></div>
+        <div class="er"><span class="i">Release</span><span class="v">signed APK, v0.4.0</span></div>
+        <div class="er"><span class="i">Device</span><span class="v">real Android phone with Phantom</span></div>
+      </div>
+      <p class="notyet">Not yet: mainnet deployment and the dApp Store listing.</p>
+    </div></section>
+
+    <section class="slide"><div class="inner split">
+      <div>
+        <p class="label">Try it</p>
+        <h2>From download to a running circle in two minutes.</h2>
+        <ol class="steps">
+          <li><span class="i">1</span><span>Install the APK from the latest release.</span></li>
+          <li><span class="i">2</span><span>Tap "See a circle run" to watch the rules with no wallet.</span></li>
+          <li><span class="i">3</span><span>Put your wallet on devnet, connect, then tap <span class="m">Get test funds</span>, tUSDC and tSKR in one signature.</span></li>
+          <li><span class="i">4</span><span>Start "One minute test run" and invite a second phone, or try the SKR club template.</span></li>
+        </ol>
+        <div class="btnrow"><a class="btn aqua" href="https://github.com/angelraph/kin/releases/latest" target="_blank" rel="noopener">Latest release &rarr;</a></div>
+      </div>
+      <div class="graph">
+        <div class="k">Good to know</div>
+        <p style="margin:12px 0 10px; font-size:14.5px; line-height:1.55; color:rgba(255,255,255,.85);">Wallets often cannot simulate devnet transactions, so Phantom may warn before you confirm. The same flow simulates normally on mainnet.</p>
+        <p style="font-size:14.5px; line-height:1.55; color:rgba(255,255,255,.85);">Phantom may also show its own identity notice. Google's link checker confirms Kin's signing keys, and the README explains both.</p>
+      </div>
+    </div></section>
+
+    <section class="slide"><div class="inner">
+      <p class="label">Roadmap</p>
+      <h2>From a working devnet app to something people rely on.</h2>
+      <ul class="road">
+        <li class="done"><div class="rail"><span class="dot now"></span><span class="line"></span></div><div class="body"><div class="tag now">Now</div><h3>Live on devnet</h3>
+          <ul><li>Bonded circles, capped autopay, verifiable order</li><li>Kin Score, Seeker gate, Proof screen, reminders</li><li>Nine use cases, simulation, one tap test funds</li><li>A home-screen widget and a live SKR track</li></ul></div></li>
+        <li><div class="rail"><span class="dot"></span><span class="line"></span></div><div class="body"><div class="tag">Next</div><h3>Mainnet</h3>
+          <ul><li>Independent security review of the program</li><li>Real USDC and the real SKR mint, small caps on each pot</li><li>The Solana dApp Store listing</li></ul></div></li>
+        <li><div class="rail"><span class="dot"></span></div><div class="body"><div class="tag">Later</div><h3>Kin Score as a credential</h3>
+          <ul><li>A small SDK so other Solana apps can read a score</li><li>Lending and rent deposits that lean on a good score</li><li>Local currency circles through stablecoin ramps</li></ul></div></li>
+      </ul>
+      <p class="lede" style="margin-top:6px;">Plans, not promises. The order depends on the security review and on what people ask for.</p>
+    </div></section>
+
+    <section class="slide"><div class="inner">
+      <p class="label">Judging criteria</p>
+      <h2>Built against all four.</h2>
+      <div class="crit">
+        <div><div class="p">25%, stickiness and product fit</div><h3>A habit, not a mint</h3><p class="t">A recurring financial ritual people already run, with a home-screen widget, reminders, streaks and a score worth protecting.</p></div>
+        <div><div class="p">25%, user experience</div><h3>One tap, one signature</h3><p class="t">Pay, collect for the group or claim a payout, each in the wallet on the phone. A clear landing page, a no-wallet simulation and free test funds.</p></div>
+        <div><div class="p">25%, innovation</div><h3>Enforced, not promised</h3><p class="t">Bonds, portable reputation and verifiable randomness live in the program, not in a claim the app makes.</p></div>
+        <div><div class="p">25%, presentation</div><h3>Checkable, not just clickable</h3><p class="t">94 automated tests across program, logic and client, and an in-app Proof screen anyone can run.</p></div>
+      </div>
+      <p class="lede">Solo build, paired with AI development, which the hackathon rules welcome.</p>
+      <div class="foot">
+        <div><span class="k">Program</span><span class="v">7CGtKBZVMKgWJRg92SmRiQkeQe8hvTV3SWrHRfsdSMWe</span></div>
+        <div><span class="k">Repo</span><span class="v">github.com/angelraph/kin</span></div>
+        <div><span class="k">Contact</span><span class="v">github.com/angelraph</span></div>
+      </div>
+    </div></section>
+
+  </div>
+
+  <button class="nav prev" id="prev" aria-label="Previous slide">&lsaquo;</button>
+  <button class="nav next" id="next" aria-label="Next slide">&rsaquo;</button>
+  <div class="pager"><div class="counter tab" id="counter">1 / 13</div><div class="dots" id="dots"></div></div>
+</div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var total = slides.length, i = 0;
+  var dotsEl = document.getElementById('dots'), counterEl = document.getElementById('counter'), barEl = document.getElementById('bar');
+  var prevBtn = document.getElementById('prev'), nextBtn = document.getElementById('next');
+  try { var saved = sessionStorage.getItem('kin-deck-slide'); if (saved !== null) { var n = parseInt(saved, 10); if (n >= 0 && n < total) i = n; } } catch (e) {}
+  for (var s = 0; s < total; s++){
+    var b = document.createElement('button');
+    b.setAttribute('aria-label', 'Go to slide ' + (s + 1));
+    (function(idx){ b.addEventListener('click', function(){ go(idx); }); })(s);
+    dotsEl.appendChild(b);
+  }
+  var dots = Array.prototype.slice.call(dotsEl.children);
+  function render(){
+    slides.forEach(function(el, idx){ el.classList.toggle('is-active', idx === i); });
+    dots.forEach(function(el, idx){ el.classList.toggle('on', idx === i); });
+    counterEl.textContent = (i + 1) + ' / ' + total;
+    barEl.style.width = (((i + 1) / total) * 100) + '%';
+    prevBtn.disabled = i === 0; nextBtn.disabled = i === total - 1;
+    try { sessionStorage.setItem('kin-deck-slide', String(i)); } catch (e) {}
+  }
+  function go(n){ i = Math.max(0, Math.min(total - 1, n)); render(); }
+  prevBtn.addEventListener('click', function(){ go(i - 1); });
+  nextBtn.addEventListener('click', function(){ go(i + 1); });
+  window.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown'){ go(i + 1); e.preventDefault(); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp'){ go(i - 1); e.preventDefault(); }
+    else if (e.key === 'Home'){ go(0); } else if (e.key === 'End'){ go(total - 1); }
+  });
+  var tx = null, el = document.getElementById('slides');
+  el.addEventListener('touchstart', function(e){ tx = e.touches[0].clientX; }, {passive:true});
+  el.addEventListener('touchend', function(e){ if (tx === null) return; var dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 50) go(dx < 0 ? i + 1 : i - 1); tx = null; }, {passive:true});
+  render();
+})();
+</script>
+</body>
+</html>
